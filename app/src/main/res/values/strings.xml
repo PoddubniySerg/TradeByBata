@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Trade_by_bata</string>
+    <string name="bottom_navigation_menu_item_home_tittle">Home</string>
+    <string name="bottom_navigation_menu_item_favourites_tittle">Favourites</string>
+    <string name="bottom_navigation_menu_item_shopping_cart_tittle">Shopping cart</string>
+    <string name="bottom_navigation_menu_item_comments_tittle">Comments</string>
+    <string name="bottom_navigation_menu_item_profile_tittle">Profile</string>
+    <string name="sign_in_hint_first_name_input">First name</string>
+    <string name="sign_in_hint_last_name_input">Last name</string>
+    <string name="sign_in_hint_email_inpul">Email</string>
+    <string name="already_have_account_text">Already have an account?</string>
+    <string name="sign_in_page_log_in_button_text">Log in</string>
+    <string name="login_hint_password_input">Password</string>
+    <string name="profile_menu_trade_store_text">Trade store</string>
+    <string name="profile_menu_payment_method_text">Payment method</string>
+    <string name="profile_menu_balance_text">Balance</string>
+    <string name="profile_menu_trade_history_text">Trade history</string>
+    <string name="profile_menu_restore_purchase_text">Restore Purchase</string>
+    <string name="profile_menu_help_text">Help</string>
+    <string name="profile_menu_log_out_text">Log out</string>
+    <string name="profile_toolbar_title_text">Profile</string>
+</resources>
