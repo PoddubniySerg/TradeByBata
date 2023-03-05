@@ -41,7 +41,8 @@ open class LoginViewModel @Inject constructor() : ViewModel() {
             try {
                 _stateFlow.value = State.LOADING
                 val isFirstNameValid = isFirstNameValid(firstName)
-                val isPasswordValid = isPasswordValid(password)
+//                val isPasswordValid = isPasswordValid(password)
+                val isPasswordValid = true
                 if (isFirstNameValid && isPasswordValid) {
                     val account = loginUseCase.execute(
                         LoginObject(

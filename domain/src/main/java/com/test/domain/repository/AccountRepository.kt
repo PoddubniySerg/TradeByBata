@@ -1,6 +1,6 @@
 package com.test.domain.repository
 
-import com.test.domain.entity.Account
+import com.test.domain.entities.Account
 import com.test.domain.model.params.*
 
 interface AccountRepository {
@@ -20,4 +20,6 @@ interface AccountRepository {
     suspend fun login(param: LoginParams): Account?
 
     suspend fun remove(param: RemoveAccountParams)
+
+    suspend fun savePhoto(param: SavePhotoParams)
 }

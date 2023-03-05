@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.test.domain.entities.Account
 import com.test.trade_by_bata.R
 import com.test.trade_by_bata.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -12,6 +13,9 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity @Inject constructor() : AppCompatActivity() {
+
+    lateinit var account: Account
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)

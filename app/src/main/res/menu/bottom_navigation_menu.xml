@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home"
+        android:id="@+id/homeFragment"
         android:icon="@drawable/bottom_navigation_menu_item_home_icon"
         android:title="@string/bottom_navigation_menu_item_home_tittle" />
 
@@ -19,7 +19,7 @@
         android:icon="@drawable/bottom_navigation_menu_item_comments_icon"
         android:title="@string/bottom_navigation_menu_item_comments_tittle" />
     <item
-        android:id="@+id/profile"
+        android:id="@+id/profileFragment"
         android:icon="@drawable/bottom_navigation_menu_item_profile_icon"
         android:title="@string/bottom_navigation_menu_item_profile_tittle" />
 </menu>

@@ -1,13 +1,12 @@
 package com.test.trade_by_bata.presentation.viewmodels
 
+import android.os.Environment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.test.domain.exceptions.AccountAlreadyExistException
 import com.test.domain.model.requests.SignInObject
 import com.test.domain.usecases.GetCurrentUserUseCase
 import com.test.domain.usecases.SignInUseCase
-import com.test.domain.usecases.SignInWithAppleUseCase
-import com.test.domain.usecases.SignInWithGoogleUseCase
 import com.test.trade_by_bata.exceptions.*
 import com.test.trade_by_bata.model.AccountDto
 import com.test.trade_by_bata.statics.State
@@ -31,12 +30,6 @@ open class SignInViewModel @Inject constructor() : ViewModel() {
     protected lateinit var signInUseCase: SignInUseCase
 
     @Inject
-    protected lateinit var signInWithAppleUseCase: SignInWithAppleUseCase
-
-    @Inject
-    protected lateinit var signInWithGoogleUseCase: SignInWithGoogleUseCase
-
-    @Inject
     protected lateinit var accountUtil: AccountUtil
 
     private val _stateFlow = MutableStateFlow(State.COMPLETE)
@@ -49,6 +42,7 @@ open class SignInViewModel @Inject constructor() : ViewModel() {
     val accountFlow get() = _accountChannel.receiveAsFlow()
 
     fun signIn(firstName: String, lastName: String?, email: String) {
+        val photoUri = "${Environment.getExternalStorageDirectory()}/user_icons"
         viewModelScope.launch {
             try {
                 _stateFlow.value = State.LOADING
@@ -59,7 +53,8 @@ open class SignInViewModel @Inject constructor() : ViewModel() {
                         SignInObject(
                             firstName,
                             lastName,
-                            email
+                            email,
+                            photoUri
                         )
                     ).account ?: throw SignInException("Account not created try later again")
                     _accountChannel.send(
@@ -83,17 +78,10 @@ open class SignInViewModel @Inject constructor() : ViewModel() {
     fun signInGoogle() {
         viewModelScope.launch {
             try {
-                _stateFlow.value = State.LOADING
-                val account = signInWithGoogleUseCase.execute().account
-                    ?: throw GoogleAuthorisedException("Google authorise error")
-                _accountChannel.send(
-                    accountUtil.convertAccountToDto(account)
-                )
+                throw GoogleAuthorisedException("Google authorise error")
             } catch (ex: Exception) {
 //            todo exception handle
                 _errorChannel.send(ex)
-            } finally {
-                _stateFlow.value = State.COMPLETE
             }
         }
     }
@@ -101,17 +89,10 @@ open class SignInViewModel @Inject constructor() : ViewModel() {
     fun signInApple() {
         viewModelScope.launch {
             try {
-                _stateFlow.value = State.LOADING
-                val account = signInWithAppleUseCase.execute().account
-                    ?: throw AppleAuthorisedException("Apple authorise error")
-                _accountChannel.send(
-                    accountUtil.convertAccountToDto(account)
-                )
+                throw AppleAuthorisedException("Apple authorise error")
             } catch (ex: Exception) {
 //            todo exception handle
                 _errorChannel.send(ex)
-            } finally {
-                _stateFlow.value = State.COMPLETE
             }
         }
     }
@@ -119,12 +100,15 @@ open class SignInViewModel @Inject constructor() : ViewModel() {
     fun getCurrentAccount() {
         runBlocking {
             try {
-                val account = getCurrentUserUseCase.execute().account
-                _accountChannel.send(
-                    accountUtil.convertAccountToDto(account ?: return@runBlocking)
-                )
+                _stateFlow.value = State.LOADING
+//                val account = getCurrentUserUseCase.execute().account
+//                _accountChannel.send(
+//                    accountUtil.convertAccountToDto(account ?: return@runBlocking)
+//                )
             } catch (ex: Exception) {
 //            todo exception handle
+            } finally {
+                _stateFlow.value = State.COMPLETE
             }
         }
     }

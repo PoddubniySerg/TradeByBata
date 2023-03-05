@@ -1,6 +1,6 @@
 package com.test.trade_by_bata.util
 
-import com.test.domain.entity.Account
+import com.test.domain.entities.Account
 import com.test.trade_by_bata.model.AccountDto
 import javax.inject.Inject
 

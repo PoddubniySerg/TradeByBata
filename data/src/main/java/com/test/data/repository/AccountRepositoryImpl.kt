@@ -3,27 +3,30 @@ package com.test.data.repository
 import com.test.data.DataApp
 import com.test.data.store.db.AccountsDao
 import com.test.data.store.db.dto.AccountDto
-import com.test.data.store.sharedpreferences.DeviceMemory
-import com.test.domain.entity.Account
+import com.test.data.store.files.FilesRepository
+import com.test.data.store.sharedpreferences.SharedPreferences
+import com.test.domain.entities.Account
 import com.test.domain.model.params.*
 import com.test.domain.repository.AccountRepository
 
 open class AccountRepositoryImpl : AccountRepository {
 
-    private val deviceMemory: DeviceMemory = DeviceMemory()
+    private val sharedPreferences: SharedPreferences = SharedPreferences()
 
     private val accountsDao: AccountsDao = DataApp.getDataBase().accountDao()
 
+    private val fileStorage: FilesRepository = FilesRepository()
+
     override suspend fun getCurrentUserId(): Int? {
-        return deviceMemory.getCurrentUserId()
+        return sharedPreferences.getCurrentUserId()
     }
 
     override suspend fun saveUserId(param: SaveUserIdParams) {
-        deviceMemory.saveCurrentUserId(param.id)
+        sharedPreferences.saveCurrentUserId(param.id)
     }
 
     override suspend fun removeUserId() {
-        deviceMemory.removeCurrentUserId()
+        sharedPreferences.removeCurrentUserId()
     }
 
     override suspend fun getUserById(param: GetUserByIdParams): Account? {
@@ -35,26 +38,42 @@ open class AccountRepositoryImpl : AccountRepository {
     }
 
     override suspend fun create(param: CreateAccountParams): Account? {
-        val account = AccountDto(
-            firstName = param.firstName,
-            lastName = param.lastName,
-            password = "",
-            photoUrl = null,
-            email = param.email,
-            balance = 0
-        )
         accountsDao.save(
-            account
+            AccountDto(
+                id = 0,
+                firstName = param.firstName,
+                lastName = param.lastName,
+                password = "",
+                photoUrl = param.photoUri,
+                email = param.email,
+                balance = 0
+            )
         )
-        return accountsDao.getUserByMetrics(account.firstName, account.email)
+        val id = accountsDao.getId(param.firstName, param.lastName, param.email)
+        val account =
+            AccountDto(
+                id = id,
+                firstName = param.firstName,
+                lastName = param.lastName,
+                password = "",
+                photoUrl = "${param.photoUri}/$id",
+                email = param.email,
+                balance = 0
+            )
+        accountsDao.update(account)
+        return account
     }
 
     override suspend fun login(param: LoginParams): Account? {
-//        todo handle
-        return null
+        return accountsDao.login(param.login, param.password)
     }
 
     override suspend fun remove(param: RemoveAccountParams) {
+        fileStorage.remove(accountsDao.getPhotoUri(param.id))
         accountsDao.remove(param.id)
+    }
+
+    override suspend fun savePhoto(param: SavePhotoParams) {
+        fileStorage.save(param.uri, param.content)
     }
 }

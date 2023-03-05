@@ -105,7 +105,7 @@ class SignInFragment @Inject constructor() :
         val args = Bundle().apply {
             putParcelable(BundleKeys.ACCOUNT_KEY, account)
         }
-        findNavController().navigate(R.id.action_signInFragment_to_profileFragment, args)
+        findNavController().navigate(R.id.action_signInFragment_to_homeFragment, args)
     }
 
     private fun clearAlarm() {

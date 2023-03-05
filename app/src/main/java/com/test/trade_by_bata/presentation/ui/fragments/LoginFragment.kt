@@ -78,7 +78,7 @@ class LoginFragment @Inject constructor() :
         val args = Bundle().apply {
             putParcelable(BundleKeys.ACCOUNT_KEY, account)
         }
-        findNavController().navigate(R.id.action_signInFragment_to_profileFragment, args)
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment, args)
     }
 
     private fun login() {

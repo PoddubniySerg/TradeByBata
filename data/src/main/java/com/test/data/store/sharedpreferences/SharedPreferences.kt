@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-class DeviceMemory {
+class SharedPreferences {
 
     companion object {
         private const val USER_ID_KEY = "user_id"

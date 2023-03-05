@@ -1,14 +1,9 @@
 package com.test.data.di
 
-import android.app.Application
-import com.test.data.DataApp
 import com.test.data.repository.AccountRepositoryImpl
-import com.test.data.repository.AppleRepositoryImpl
-import com.test.data.repository.GoogleRepositoryImpl
-import com.test.data.store.db.AccountsDao
+import com.test.data.repository.GoodsRepositoryImpl
 import com.test.domain.repository.AccountRepository
-import com.test.domain.repository.AppleRepository
-import com.test.domain.repository.GoogleRepository
+import com.test.domain.repository.GoodsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,8 +17,5 @@ class Module {
     fun provideAccountRepository(): AccountRepository = AccountRepositoryImpl()
 
     @Provides
-    fun provideGoogleRepository(): GoogleRepository = GoogleRepositoryImpl()
-
-    @Provides
-    fun provideAppleRepository(): AppleRepository = AppleRepositoryImpl()
+    fun provideGoodsRepository(): GoodsRepository = GoodsRepositoryImpl()
 }

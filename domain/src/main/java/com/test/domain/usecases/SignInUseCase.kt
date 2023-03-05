@@ -26,7 +26,8 @@ open class SignInUseCase @Inject constructor() {
             CreateAccountParams(
                 param.firstName,
                 param.lastName,
-                param.email
+                param.email,
+                param.photoUri
             )
         )
         if (account != null)

@@ -3,13 +3,13 @@ package com.test.data.store.db.dto
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.test.domain.entity.Account
+import com.test.domain.entities.Account
 
 @Entity(tableName = "accounts")
 class AccountDto(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    override val id: Int = 0,
+    override val id: Int,
 
     @ColumnInfo(name = "first_name", index = true)
     override val firstName: String,
@@ -21,7 +21,7 @@ class AccountDto(
     override val password: String,
 
     @ColumnInfo(name = "photo_url")
-    override val photoUrl: String?,
+    override val photoUrl: String,
 
     @ColumnInfo(name = "email")
     override val email: String,

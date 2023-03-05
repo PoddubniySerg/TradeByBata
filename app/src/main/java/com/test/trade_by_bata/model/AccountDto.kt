@@ -2,7 +2,7 @@ package com.test.trade_by_bata.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.test.domain.entity.Account
+import com.test.domain.entities.Account
 import com.test.trade_by_bata.exceptions.ParcelException
 
 class AccountDto(
@@ -10,7 +10,7 @@ class AccountDto(
     override val firstName: String,
     override val lastName: String?,
     override val password: String,
-    override val photoUrl: String?,
+    override val photoUrl: String,
     override val email: String,
     override val balance: Int
 ) : Account, Parcelable {
@@ -20,7 +20,7 @@ class AccountDto(
         parcel.readString() ?: throw ParcelException(EXCEPTION_MESSAGE),
         parcel.readString(),
         parcel.readString() ?: throw ParcelException(EXCEPTION_MESSAGE),
-        parcel.readString(),
+        parcel.readString() ?: throw ParcelException(EXCEPTION_MESSAGE),
         parcel.readString() ?: throw ParcelException(EXCEPTION_MESSAGE),
         parcel.readInt()
     )
