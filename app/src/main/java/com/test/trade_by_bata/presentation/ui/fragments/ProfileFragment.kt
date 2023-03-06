@@ -9,20 +9,18 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.test.domain.entities.Account
 import com.test.domain.exceptions.SavePhotoException
 import com.test.trade_by_bata.R
 import com.test.trade_by_bata.databinding.FragmentProfileBinding
-import com.test.trade_by_bata.model.AccountDto
-import com.test.trade_by_bata.presentation.ui.MainActivity
+import com.test.trade_by_bata.presentation.viewmodels.AccountSourceViewModel
 import com.test.trade_by_bata.presentation.viewmodels.ProfileViewModel
-import com.test.trade_by_bata.statics.BundleKeys
 import com.test.trade_by_bata.statics.State
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -45,10 +43,10 @@ class ProfileFragment @Inject constructor() :
     }
 
     private val viewModel by viewModels<ProfileViewModel>()
+    private val accountViewModel by activityViewModels<AccountSourceViewModel>()
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var requestGalleryLauncher: ActivityResultLauncher<String>
-    private var account: Account? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,43 +57,32 @@ class ProfileFragment @Inject constructor() :
         setClickListeners()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        if (account != null) outState.putParcelable(BundleKeys.ACCOUNT_KEY, account as AccountDto)
-        super.onSaveInstanceState(outState)
-    }
-
     private fun bind(args: Bundle?) {
-
-        account =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                args?.getParcelable(BundleKeys.ACCOUNT_KEY, Account::class.java)
-            } else {
-                args?.getParcelable(BundleKeys.ACCOUNT_KEY)
-            } ?: (requireActivity() as MainActivity).account
-
-        (requireActivity() as MainActivity).account = account!!
 
         with(binding) {
             with(toolbar) {
                 setupWithNavController(findNavController())
                 title = null
             }
-            account?.let {
-                Glide.with(requireContext())
-                    .load(it.photoUrl)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .error(R.drawable.profile_photo_place_holder)
-                    .placeholder(R.drawable.profile_photo_place_holder)
-                    .into(photo)
+            Glide.with(requireContext())
+                .load(accountViewModel.account.photoUrl)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .error(R.drawable.profile_photo_place_holder)
+                .placeholder(R.drawable.profile_photo_place_holder)
+                .into(photo)
 
-                nameUserTextView.text = String.format("%s %s", it.firstName, it.lastName)
+            nameUserTextView.text =
+                String.format(
+                    "%s %s",
+                    accountViewModel.account.firstName,
+                    accountViewModel.account.lastName
+                )
 
-                val balance =
-                    if (it.balance == 0) 1593
-                    else it.balance
-                balanceTextView.text = String.format("$ %d", balance)
-            }
+            val balance =
+                if (accountViewModel.account.balance == 0) 1593
+                else accountViewModel.account.balance
+            balanceTextView.text = String.format("$ %d", balance)
         }
     }
 
@@ -117,14 +104,12 @@ class ProfileFragment @Inject constructor() :
             registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
                 uri?.let {
 //                TODO crop and save photo in future
-                    account?.let { acc ->
-                        requireContext().contentResolver.openInputStream(uri).use { inputStream ->
-                            inputStream?.let {
-                                viewModel.savePhoto(
-                                    acc.photoUrl,
-                                    inputStream.readBytes()
-                                )
-                            }
+                    requireContext().contentResolver.openInputStream(uri).use { inputStream ->
+                        inputStream?.let {
+                            viewModel.savePhoto(
+                                accountViewModel.account.photoUrl,
+                                inputStream.readBytes()
+                            )
                         }
                     }
                 }
@@ -180,14 +165,12 @@ class ProfileFragment @Inject constructor() :
 
     private fun updatePhoto(isPhotoChanged: Boolean) {
         if (isPhotoChanged) {
-            account?.let {
-                Glide.with(requireContext())
-                    .load(it.photoUrl)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .placeholder(R.drawable.profile_photo_place_holder)
-                    .into(binding.photo)
-            }
+            Glide.with(requireContext())
+                .load(accountViewModel.account.photoUrl)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .placeholder(R.drawable.profile_photo_place_holder)
+                .into(binding.photo)
         }
     }
 

@@ -3,19 +3,19 @@ package com.test.trade_by_bata.presentation.ui.fragments
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.test.domain.entities.Account
 import com.test.trade_by_bata.R
 import com.test.trade_by_bata.databinding.FragmentHomeBinding
 import com.test.trade_by_bata.model.AccountDto
-import com.test.trade_by_bata.presentation.ui.MainActivity
 import com.test.trade_by_bata.presentation.ui.adapters.HomeBrandsCollectionAdapter
 import com.test.trade_by_bata.presentation.ui.adapters.HomeCategoriesAdapter
 import com.test.trade_by_bata.presentation.ui.adapters.HomeFlashSaleCollectionAdapter
 import com.test.trade_by_bata.presentation.ui.adapters.HomeLatestCollectionAdapter
+import com.test.trade_by_bata.presentation.viewmodels.AccountSourceViewModel
 import com.test.trade_by_bata.presentation.viewmodels.HomeViewModel
 import com.test.trade_by_bata.statics.BundleKeys
 import com.test.trade_by_bata.statics.State
@@ -30,16 +30,16 @@ class HomeFragment @Inject constructor() :
     BindFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private val viewModel by viewModels<HomeViewModel>()
+    private val accountViewModel by activityViewModels<AccountSourceViewModel>()
 
     private lateinit var categoriesAdapter: HomeCategoriesAdapter
     private lateinit var latestAdapter: HomeLatestCollectionAdapter
     private lateinit var flashSaleAdapter: HomeFlashSaleCollectionAdapter
     private lateinit var brandAdapter: HomeBrandsCollectionAdapter
-    private var account: Account? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        handleArguments(savedInstanceState)
+        handleArguments()
         viewModel.getCategories()
         viewModel.getData()
         initAdapters()
@@ -48,31 +48,19 @@ class HomeFragment @Inject constructor() :
         bind()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        if (account != null) outState.putParcelable(BundleKeys.ACCOUNT_KEY, account as AccountDto)
-        super.onSaveInstanceState(outState)
-    }
-
-    private fun handleArguments(args: Bundle?) {
-        if (account == null) {
-            account =
-                if (arguments != null) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        requireArguments().getParcelable(
-                            BundleKeys.ACCOUNT_KEY,
-                            AccountDto::class.java
-                        )
-                    } else {
-                        requireArguments().getParcelable(BundleKeys.ACCOUNT_KEY)
-                    } ?: (requireActivity() as MainActivity).account
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    args?.getParcelable(BundleKeys.ACCOUNT_KEY, Account::class.java)
+    private fun handleArguments() {
+        arguments?.let { args ->
+            accountViewModel.setAccount(
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    args.getParcelable(
+                        BundleKeys.ACCOUNT_KEY,
+                        AccountDto::class.java
+                    )
                 } else {
-                    args?.getParcelable(BundleKeys.ACCOUNT_KEY)
-                } ?: (requireActivity() as MainActivity).account
+                    args.getParcelable(BundleKeys.ACCOUNT_KEY)
+                } ?: return
+            )
         }
-
-        (requireActivity() as MainActivity).account = account!!
     }
 
     private fun initAdapters() {
@@ -125,15 +113,13 @@ class HomeFragment @Inject constructor() :
     }
 
     private fun bind() {
-        account?.let {
-            with(binding) {
-                Glide.with(requireContext())
-                    .load(it.photoUrl)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .placeholder(R.drawable.home_photo_place_holder)
-                    .into(photo)
-            }
+        with(binding) {
+            Glide.with(requireContext())
+                .load(accountViewModel.account.photoUrl)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .placeholder(R.drawable.home_photo_place_holder)
+                .into(photo)
         }
     }
 
