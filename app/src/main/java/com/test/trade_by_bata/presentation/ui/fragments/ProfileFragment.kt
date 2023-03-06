@@ -14,11 +14,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.test.domain.entities.Account
 import com.test.domain.exceptions.SavePhotoException
 import com.test.trade_by_bata.R
 import com.test.trade_by_bata.databinding.FragmentProfileBinding
+import com.test.trade_by_bata.model.AccountDto
 import com.test.trade_by_bata.presentation.ui.MainActivity
 import com.test.trade_by_bata.presentation.viewmodels.ProfileViewModel
+import com.test.trade_by_bata.statics.BundleKeys
 import com.test.trade_by_bata.statics.State
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -30,7 +34,7 @@ class ProfileFragment @Inject constructor() :
     BindFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
 
     companion object {
-//        список необходимых разрешений
+        //        список необходимых разрешений
         private val PERMISSIONS = buildList {
             add(Manifest.permission.READ_EXTERNAL_STORAGE)
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
@@ -44,15 +48,55 @@ class ProfileFragment @Inject constructor() :
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var requestGalleryLauncher: ActivityResultLauncher<String>
+    private var account: Account? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        bind(savedInstanceState)
         initPermissionResult()
         initGalleryResult()
-        bind()
         setFlowCollectors()
         setClickListeners()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (account != null) outState.putParcelable(BundleKeys.ACCOUNT_KEY, account as AccountDto)
+        super.onSaveInstanceState(outState)
+    }
+
+    private fun bind(args: Bundle?) {
+
+        account =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                args?.getParcelable(BundleKeys.ACCOUNT_KEY, Account::class.java)
+            } else {
+                args?.getParcelable(BundleKeys.ACCOUNT_KEY)
+            } ?: (requireActivity() as MainActivity).account
+
+        (requireActivity() as MainActivity).account = account!!
+
+        with(binding) {
+            with(toolbar) {
+                setupWithNavController(findNavController())
+                title = null
+            }
+            account?.let {
+                Glide.with(requireContext())
+                    .load(it.photoUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .error(R.drawable.profile_photo_place_holder)
+                    .placeholder(R.drawable.profile_photo_place_holder)
+                    .into(photo)
+
+                nameUserTextView.text = String.format("%s %s", it.firstName, it.lastName)
+
+                val balance =
+                    if (it.balance == 0) 1593
+                    else it.balance
+                balanceTextView.text = String.format("$ %d", balance)
+            }
+        }
     }
 
     private fun initPermissionResult() {
@@ -73,13 +117,14 @@ class ProfileFragment @Inject constructor() :
             registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
                 uri?.let {
 //                TODO crop and save photo in future
-                    val account = (requireActivity() as MainActivity).account
-                    requireContext().contentResolver.openInputStream(uri).use { inputStream ->
-                        inputStream?.let {
-                            viewModel.savePhoto(
-                                account.photoUrl,
-                                inputStream.readBytes()
-                            )
+                    account?.let { acc ->
+                        requireContext().contentResolver.openInputStream(uri).use { inputStream ->
+                            inputStream?.let {
+                                viewModel.savePhoto(
+                                    acc.photoUrl,
+                                    inputStream.readBytes()
+                                )
+                            }
                         }
                     }
                 }
@@ -89,30 +134,6 @@ class ProfileFragment @Inject constructor() :
     private fun requestPermissions() = requestPermissionLauncher.launch(PERMISSIONS)
 
     private fun requestGallery() = requestGalleryLauncher.launch("image/*")
-
-    private fun bind() {
-
-        val account = (requireActivity() as MainActivity).account
-
-        with(binding) {
-            with(toolbar) {
-                setupWithNavController(findNavController())
-                title = null
-            }
-            Glide.with(requireContext())
-                .load(account.photoUrl)
-                .error(R.drawable.profile_photo_place_holder)
-                .placeholder(R.drawable.profile_photo_place_holder)
-                .into(photo)
-
-            nameUserTextView.text = String.format("%s %s", account.firstName, account.lastName)
-
-            val balance =
-                if (account.balance == 0) 1593
-                else account.balance
-            balanceTextView.text = String.format("$ %d", balance)
-        }
-    }
 
     private fun setFlowCollectors() {
         viewModel.stateFlow.onEach { handleState(it) }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -159,11 +180,14 @@ class ProfileFragment @Inject constructor() :
 
     private fun updatePhoto(isPhotoChanged: Boolean) {
         if (isPhotoChanged) {
-            val account = (requireActivity() as MainActivity).account
-            Glide.with(requireContext())
-                .load(account.photoUrl)
-                .placeholder(R.drawable.profile_photo_place_holder)
-                .into(binding.photo)
+            account?.let {
+                Glide.with(requireContext())
+                    .load(it.photoUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .placeholder(R.drawable.profile_photo_place_holder)
+                    .into(binding.photo)
+            }
         }
     }
 

@@ -6,10 +6,10 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.test.domain.entities.Account
 import com.test.trade_by_bata.R
 import com.test.trade_by_bata.databinding.FragmentHomeBinding
-import com.test.trade_by_bata.exceptions.HomeException
 import com.test.trade_by_bata.model.AccountDto
 import com.test.trade_by_bata.presentation.ui.MainActivity
 import com.test.trade_by_bata.presentation.ui.adapters.HomeBrandsCollectionAdapter
@@ -35,31 +35,44 @@ class HomeFragment @Inject constructor() :
     private lateinit var latestAdapter: HomeLatestCollectionAdapter
     private lateinit var flashSaleAdapter: HomeFlashSaleCollectionAdapter
     private lateinit var brandAdapter: HomeBrandsCollectionAdapter
-    private lateinit var account: Account
+    private var account: Account? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        handleArguments(savedInstanceState)
         viewModel.getCategories()
         viewModel.getData()
-        handleArguments()
         initAdapters()
         setClickListeners()
         setFlowCollectors()
         bind()
     }
 
-    private fun handleArguments() {
-        if (arguments != null) {
-            account = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                requireArguments().getParcelable(BundleKeys.ACCOUNT_KEY, AccountDto::class.java)
-            } else {
-                requireArguments().getParcelable(BundleKeys.ACCOUNT_KEY)
-            } ?: throw HomeException("Home hasn't account data")
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (account != null) outState.putParcelable(BundleKeys.ACCOUNT_KEY, account as AccountDto)
+        super.onSaveInstanceState(outState)
+    }
 
-            (requireActivity() as MainActivity).account = account
-        } else account =
-            (requireActivity() as MainActivity).account
-        println()
+    private fun handleArguments(args: Bundle?) {
+        if (account == null) {
+            account =
+                if (arguments != null) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        requireArguments().getParcelable(
+                            BundleKeys.ACCOUNT_KEY,
+                            AccountDto::class.java
+                        )
+                    } else {
+                        requireArguments().getParcelable(BundleKeys.ACCOUNT_KEY)
+                    } ?: (requireActivity() as MainActivity).account
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    args?.getParcelable(BundleKeys.ACCOUNT_KEY, Account::class.java)
+                } else {
+                    args?.getParcelable(BundleKeys.ACCOUNT_KEY)
+                } ?: (requireActivity() as MainActivity).account
+        }
+
+        (requireActivity() as MainActivity).account = account!!
     }
 
     private fun initAdapters() {
@@ -104,7 +117,7 @@ class HomeFragment @Inject constructor() :
             .onEach { brandAdapter.submitList(it) }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.latestFlow.combine(viewModel.flashSaleFlow) { latest, sale ->
-            if (!latest.isEmpty() && !sale.isEmpty()) {
+            if (latest.isNotEmpty() && sale.isNotEmpty()) {
                 latestAdapter.submitList(latest)
                 flashSaleAdapter.submitList(sale)
             }
@@ -112,11 +125,15 @@ class HomeFragment @Inject constructor() :
     }
 
     private fun bind() {
-        with(binding) {
-            Glide.with(requireContext())
-                .load(account.photoUrl)
-                .placeholder(R.drawable.home_photo_place_holder)
-                .into(photo)
+        account?.let {
+            with(binding) {
+                Glide.with(requireContext())
+                    .load(it.photoUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .placeholder(R.drawable.home_photo_place_holder)
+                    .into(photo)
+            }
         }
     }
 

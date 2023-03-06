@@ -23,7 +23,7 @@ class AccountDto(
     @ColumnInfo(name = "photo_url")
     override val photoUrl: String,
 
-    @ColumnInfo(name = "email")
+    @ColumnInfo(name = "email", index = true)
     override val email: String,
 
     @ColumnInfo(name = "balance")
