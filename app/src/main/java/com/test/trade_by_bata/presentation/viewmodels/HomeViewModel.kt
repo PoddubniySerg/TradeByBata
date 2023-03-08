@@ -42,9 +42,6 @@ open class HomeViewModel @Inject constructor() : ViewModel() {
     private val _stateFlow = MutableStateFlow(State.COMPLETE)
     val stateFlow get() = _stateFlow.asStateFlow()
 
-    private val _searchWordsMutableStateFlow = MutableStateFlow(State.COMPLETE)
-    val searchWordsStateFlow = _searchWordsMutableStateFlow.asStateFlow()
-
     private val _errorChannel = Channel<Exception>()
     val errorFlow get() = _errorChannel.receiveAsFlow()
 
@@ -59,9 +56,6 @@ open class HomeViewModel @Inject constructor() : ViewModel() {
 
     private val _flashSaleChannel = Channel<List<FlashSaleGood>>()
     val flashSaleFlow = _flashSaleChannel.receiveAsFlow()
-
-    private val _searchWordsChannel = Channel<List<String>>()
-    val searchWordsFlow = _searchWordsChannel.receiveAsFlow()
 
     private var brands: List<Brand>? = null
     private var latest: List<LatestGood>? = null

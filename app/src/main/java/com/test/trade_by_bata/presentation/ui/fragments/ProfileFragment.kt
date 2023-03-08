@@ -50,14 +50,14 @@ class ProfileFragment @Inject constructor() :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bind(savedInstanceState)
+        bind()
         initPermissionResult()
         initGalleryResult()
         setFlowCollectors()
         setClickListeners()
     }
 
-    private fun bind(args: Bundle?) {
+    private fun bind() {
 
         with(binding) {
             with(toolbar) {

@@ -8,7 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="70dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -167,7 +168,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/helpButton"
             style="@style/profile_menu_buttons_style"
-            android:drawableStart="@drawable/profile_restore_purchase_picture"
+            android:drawableStart="@drawable/profile_help_picture"
             android:text="@string/profile_menu_help_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -176,7 +177,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/logOutButton"
             style="@style/profile_menu_buttons_style"
-            android:drawableStart="@drawable/profile_restore_purchase_picture"
+            android:drawableStart="@drawable/profile_log_out_picture"
             android:text="@string/profile_menu_log_out_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
