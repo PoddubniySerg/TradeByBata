@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="input_layout_style" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="login_sign_in_input_layout_style" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="boxCornerRadiusBottomEnd">15dp</item>
@@ -14,7 +14,7 @@
         <item name="errorEnabled">true</item>
     </style>
 
-    <style name="input_edit_text_style">
+    <style name="login_sign_in_input_edit_text_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">30dp</item>
         <item name="android:textSize">11sp</item>
@@ -50,5 +50,11 @@
         <item name="fontFamily">@font/poppins</item>
         <item name="android:textColor">#FF5B5B5B</item>
         <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="home_search_text_style">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textColor">#FF5B5B5B</item>
+        <item name="android:textSize">9sp</item>
     </style>
 </resources>

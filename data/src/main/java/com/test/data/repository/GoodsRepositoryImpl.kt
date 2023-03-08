@@ -14,16 +14,12 @@ class GoodsRepositoryImpl : GoodsRepository {
 
     override suspend fun getLatestGoods(): List<LatestGood> {
         val response = networkSource.getLatestGoods()
-        println(response)
-        println(response.body()?.latest)
         return response.body()?.latest
             ?: throw GoodsNetworkResponseException("Code:${response.code()}, message: ${response.message()}")
     }
 
     override suspend fun getFlshSaleGoods(): List<FlashSaleGood> {
         val response = networkSource.getFlashSaleGoods()
-        println(response)
-        println(response.body()?.flashSale)
         return response.body()?.flashSale
             ?: throw GoodsNetworkResponseException("Code:${response.code()}, message: ${response.message()}")
     }
@@ -35,5 +31,24 @@ class GoodsRepositoryImpl : GoodsRepository {
             BrandDto("https://www.tradeinn.com/f/13754/137546834/microsoft-xbox-xbox-one-s-1tb-console-additional-controller.jpg"),
             BrandDto("https://mirbmw.ru/wp-content/uploads/2022/01/manhart-mhx6-700-01.jpg")
         ).toList()
+    }
+
+    override suspend fun getKeyWords(): List<String> {
+//        заглушка для оффлайн теста
+//        return listOf(
+//            "Adidas Yeezy",
+//            "Sony Playstation",
+//            "Nike Air",
+//            "Puma",
+//            "BMW X6",
+//            "Xbox One",
+//            "Jack Daniels",
+//            "New Balance",
+//            "Reebok Classic",
+//            "Rolex"
+//        )
+        val response = networkSource.getKeyWords()
+        return response.body()?.words
+            ?: throw GoodsNetworkResponseException("Code:${response.code()}, message: ${response.message()}")
     }
 }

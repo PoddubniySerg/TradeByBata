@@ -13,8 +13,7 @@ import com.test.trade_by_bata.exceptions.InvalidPasswordException
 import com.test.trade_by_bata.exceptions.LoginException
 import com.test.trade_by_bata.model.AccountDto
 import com.test.trade_by_bata.presentation.viewmodels.LoginViewModel
-import com.test.trade_by_bata.statics.BundleKeys
-import com.test.trade_by_bata.statics.State
+import com.test.trade_by_bata.util.State
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -76,7 +75,7 @@ class LoginFragment @Inject constructor() :
 
     private fun handleAccountFlow(account: AccountDto) {
         val args = Bundle().apply {
-            putParcelable(BundleKeys.ACCOUNT_KEY, account)
+            putParcelable(resources.getString(R.string.account_key), account)
         }
         findNavController().navigate(R.id.action_loginFragment_to_homeFragment, args)
     }

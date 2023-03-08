@@ -1,6 +1,7 @@
 package com.test.data.store.network
 
 import com.test.data.store.network.dto.FlashSaleDto
+import com.test.data.store.network.dto.KeyWordsDto
 import com.test.data.store.network.dto.LatestDto
 import retrofit2.Response
 import retrofit2.http.GET
@@ -12,4 +13,7 @@ interface GoodsNetworkApi {
 
     @GET("/v3/a9ceeb6e-416d-4352-bde6-2203416576ac")
     suspend fun getFlashSaleGoods(): Response<FlashSaleDto>
+
+    @GET("/v3/4c9cd822-9479-4509-803d-63197e5a9e19")
+    suspend fun getKeyWords(): Response<KeyWordsDto>
 }

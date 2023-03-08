@@ -23,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                     app:layout_constraintStart_toStartOf="@+id/photoLayout"
                     app:layout_constraintTop_toBottomOf="@id/photoLayout" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.MaterialToolbar>
 
         <FrameLayout
             android:id="@+id/searchLayout"
@@ -102,18 +102,26 @@
             android:background="@drawable/home_search_background"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.test.trade_by_bata.presentation.ui.views.HomeSearchAutoCompleteView
                 android:id="@+id/searchInputText"
+                style="@style/home_search_text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
-                android:fontFamily="@font/poppins"
+                android:completionThreshold="1"
+                android:dropDownAnchor="@id/searchLayout"
                 android:gravity="center"
-                android:hint="@string/home_search_hint_text"
-                android:textColor="#FF5B5B5B"
-                android:textSize="9sp"
-                tools:ignore="SmallSp" />
+                android:hint="@string/home_search_hint_text" />
+
+            <ProgressBar
+                android:id="@+id/searchLoadingIndicator"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:layout_marginEnd="20dp"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/searchButton"

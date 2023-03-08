@@ -3,6 +3,7 @@ package com.test.trade_by_bata.presentation.ui.fragments
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -11,14 +12,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.test.trade_by_bata.R
 import com.test.trade_by_bata.databinding.FragmentHomeBinding
 import com.test.trade_by_bata.model.AccountDto
-import com.test.trade_by_bata.presentation.ui.adapters.HomeBrandsCollectionAdapter
-import com.test.trade_by_bata.presentation.ui.adapters.HomeCategoriesAdapter
-import com.test.trade_by_bata.presentation.ui.adapters.HomeFlashSaleCollectionAdapter
-import com.test.trade_by_bata.presentation.ui.adapters.HomeLatestCollectionAdapter
+import com.test.trade_by_bata.presentation.ui.adapters.*
 import com.test.trade_by_bata.presentation.viewmodels.AccountSourceViewModel
 import com.test.trade_by_bata.presentation.viewmodels.HomeViewModel
-import com.test.trade_by_bata.statics.BundleKeys
-import com.test.trade_by_bata.statics.State
+import com.test.trade_by_bata.util.State
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -53,11 +50,11 @@ class HomeFragment @Inject constructor() :
             accountViewModel.setAccount(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     args.getParcelable(
-                        BundleKeys.ACCOUNT_KEY,
+                        resources.getString(R.string.account_key),
                         AccountDto::class.java
                     )
                 } else {
-                    args.getParcelable(BundleKeys.ACCOUNT_KEY)
+                    args.getParcelable(resources.getString(R.string.account_key))
                 } ?: return
             )
         }
@@ -66,23 +63,16 @@ class HomeFragment @Inject constructor() :
     private fun initAdapters() {
         categoriesAdapter =
             HomeCategoriesAdapter { category -> viewModel.onCategoryClick(category) }
-        binding.categories.adapter = categoriesAdapter
-
         latestAdapter = HomeLatestCollectionAdapter(
             { good -> viewModel.addToCart(good) },
             { good -> viewModel.onGoodClick(good) }
         )
-        binding.latestCollection.adapter = latestAdapter
-
         flashSaleAdapter = HomeFlashSaleCollectionAdapter(
             { good -> viewModel.addToCart(good) },
             { good -> viewModel.addToFavourites(good) },
             { good -> viewModel.onGoodClick(good) }
         )
-        binding.flashSaleCollection.adapter = flashSaleAdapter
-
         brandAdapter = HomeBrandsCollectionAdapter()
-        binding.brandsCollection.adapter = brandAdapter
     }
 
     private fun setClickListeners() {
@@ -114,6 +104,22 @@ class HomeFragment @Inject constructor() :
 
     private fun bind() {
         with(binding) {
+            categories.adapter = categoriesAdapter
+            latestCollection.adapter = latestAdapter
+            flashSaleCollection.adapter = flashSaleAdapter
+            brandsCollection.adapter = brandAdapter
+            with(searchInputText) {
+                setAdapter(
+                    HomeSearchAutoCompleteAdapter(requireContext()) { input ->
+                        viewModel.getSearchKeyWords(
+                            input
+                        )
+                    }
+                )
+                setDelay(1000)
+                setLoadIndicator(searchLoadingIndicator)
+            }
+
             Glide.with(requireContext())
                 .load(accountViewModel.account.photoUrl)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -124,14 +130,7 @@ class HomeFragment @Inject constructor() :
     }
 
     private fun handleState(state: State) {
-        when (state) {
-            State.LOADING -> {
-                binding.progressBar.visibility = View.VISIBLE
-            }
-            State.COMPLETE -> {
-                binding.progressBar.visibility = View.GONE
-            }
-        }
+        binding.progressBar.isVisible = state == State.LOADING
     }
 
     private fun handleError(exception: Exception) {

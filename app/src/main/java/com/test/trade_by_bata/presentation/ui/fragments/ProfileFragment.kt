@@ -21,7 +21,7 @@ import com.test.trade_by_bata.R
 import com.test.trade_by_bata.databinding.FragmentProfileBinding
 import com.test.trade_by_bata.presentation.viewmodels.AccountSourceViewModel
 import com.test.trade_by_bata.presentation.viewmodels.ProfileViewModel
-import com.test.trade_by_bata.statics.State
+import com.test.trade_by_bata.util.State
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

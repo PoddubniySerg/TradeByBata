@@ -11,4 +11,6 @@ interface GoodsRepository {
     suspend fun getFlshSaleGoods(): List<FlashSaleGood>
 
     suspend fun getBrands(): List<Brand>
+
+    suspend fun getKeyWords(): List<String>
 }

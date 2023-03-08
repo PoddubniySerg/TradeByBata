@@ -9,7 +9,7 @@ import com.test.domain.usecases.GetCurrentUserUseCase
 import com.test.domain.usecases.SignInUseCase
 import com.test.trade_by_bata.exceptions.*
 import com.test.trade_by_bata.model.AccountDto
-import com.test.trade_by_bata.statics.State
+import com.test.trade_by_bata.util.State
 import com.test.trade_by_bata.util.AccountUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

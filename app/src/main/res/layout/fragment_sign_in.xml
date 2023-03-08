@@ -31,31 +31,31 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/firstNameInputLayout"
-                style="@style/input_layout_style">
+                style="@style/login_sign_in_input_layout_style">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/firstNameInputText"
-                    style="@style/input_edit_text_style"
+                    style="@style/login_sign_in_input_edit_text_style"
                     android:hint="@string/sign_in_hint_first_name_input" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/lastNameInputLayout"
-                style="@style/input_layout_style">
+                style="@style/login_sign_in_input_layout_style">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/lastNameInputText"
-                    style="@style/input_edit_text_style"
+                    style="@style/login_sign_in_input_edit_text_style"
                     android:hint="@string/sign_in_hint_last_name_input" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailInputLayout"
-                style="@style/input_layout_style">
+                style="@style/login_sign_in_input_layout_style">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailInputText"
-                    style="@style/input_edit_text_style"
+                    style="@style/login_sign_in_input_edit_text_style"
                     android:hint="@string/sign_in_hint_email_inpul" />
             </com.google.android.material.textfield.TextInputLayout>
 

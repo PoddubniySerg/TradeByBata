@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.test.domain.model.requests.Photo
 import com.test.domain.usecases.LogOutUseCase
 import com.test.domain.usecases.SavePhotoUseCase
-import com.test.trade_by_bata.statics.State
+import com.test.trade_by_bata.util.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
