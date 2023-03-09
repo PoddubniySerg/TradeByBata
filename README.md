@@ -1,17 +1,16 @@
 # Демонстрация реализации:
 
-### Валидация поля email, создание нового аккаунта
-
-![Demo](./assets/sign-in-test.gif)
-
-### Проверка существующего пользователя, вход по логину (валидация пароля отключена)
-
-![Demo](./assets/user-exist-and-login-test.gif)
-
-### Главная страница, поиск с подсказками, детализация информации о товаре
-
-![Demo](./assets/home-search-details-test.gif)
-
-### Профиль пользователя, загрузка фото, удаление данных пользователя при выходе
-
-![Demo](./assets/profile-photo-load-logout-test.gif)
+<table>
+  <tr>
+    <th>Валидация поля email, создание нового аккаунта</th>
+    <th>Проверка существующего пользователя, вход по логину (валидация пароля отключена)</th>
+    <th>Главная страница, поиск с подсказками, детализация информации о товаре</th>
+    <th>Профиль пользователя, загрузка фото, удаление данных пользователя при выходе</th>
+  </tr>
+  <tr>
+    <td><img src="./assets/sign-in-test.gif" alt="drawing" width="200"/></td>
+    <td><img src="./assets/user-exist-and-login-test.gif" alt="drawing" width="200"/></td>
+    <td><img src="./assets/home-search-details-test.gif" alt="drawing" width="200"/></td>
+    <td><img src="./assets/profile-photo-load-logout-test.gif" alt="drawing" width="200"/></td>
+  </tr>
+</table>
