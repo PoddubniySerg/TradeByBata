@@ -3,14 +3,17 @@ package com.test.trade_by_bata.presentation.ui.adapters
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.setPadding
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.test.trade_by_bata.R
 import com.test.trade_by_bata.databinding.GoodDetailsColorSelectorItemBinding
 import com.test.trade_by_bata.model.GoodDetailsColor
 
-class GoodDetailsColorsAdapter :
+class GoodDetailsColorsAdapter(
+    private val onColorSelect: (Int) -> Unit
+) :
     ListAdapter<GoodDetailsColor, GoodDetailsColorsViewHolder>(GoodDetailsColorsDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoodDetailsColorsViewHolder {
@@ -22,9 +25,24 @@ class GoodDetailsColorsAdapter :
 
     override fun onBindViewHolder(holder: GoodDetailsColorsViewHolder, position: Int) {
         val color = getItem(position)
-        holder.binding.colorValue.setColorFilter(Color.parseColor(color.colorHex))
-        if (color.isSelected) holder.binding.colorLayout.setPadding(4)
-        else holder.binding.colorLayout.setPadding(0)
+        holder.binding.colorValue.setBackgroundColor(Color.parseColor(color.colorHex))
+
+        if (color.isSelected)
+            holder.binding.colorValue.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    holder.binding.root.context,
+                    R.drawable.good_details_color_item_selected_drawable
+                )
+            )
+        else
+            holder.binding.colorValue.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    holder.binding.root.context,
+                    R.drawable.good_details_color_item_selector
+                )
+            )
+
+        holder.binding.root.setOnClickListener { onColorSelect(position) }
     }
 }
 

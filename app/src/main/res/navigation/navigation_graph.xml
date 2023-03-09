@@ -34,16 +34,25 @@
         android:id="@+id/profileFragment"
         android:name="com.test.trade_by_bata.presentation.ui.fragments.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_signInFragment"
             app:destination="@id/signInFragment"
             app:popUpTo="@id/signInFragment"
-            app:popUpToInclusive="false"/>
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.test.trade_by_bata.presentation.ui.fragments.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_goodDetailsFragment"
+            app:destination="@id/goodDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/goodDetailsFragment"
+        android:name="com.test.trade_by_bata.presentation.ui.fragments.GoodDetailsFragment"
+        android:label="GoodDetailsFragment"
+        tools:layout="@layout/fragment_good_details" />
 </navigation>
