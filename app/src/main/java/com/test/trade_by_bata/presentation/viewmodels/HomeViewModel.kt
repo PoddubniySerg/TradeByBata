@@ -4,15 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.test.domain.entities.Brand
 import com.test.domain.entities.FlashSaleGood
+import com.test.domain.entities.GoodDetails
 import com.test.domain.entities.LatestGood
 import com.test.domain.model.requests.SearchRequest
-import com.test.domain.usecases.GetBrandsUseCase
-import com.test.domain.usecases.GetFlashSaleGoodsUseCase
-import com.test.domain.usecases.GetLatestGoodsUseCase
-import com.test.domain.usecases.GetSearchKeyWordsUseCase
+import com.test.domain.usecases.*
 import com.test.trade_by_bata.model.Category
-import com.test.trade_by_bata.util.State
 import com.test.trade_by_bata.util.CategoriesUtil
+import com.test.trade_by_bata.util.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,6 +35,9 @@ open class HomeViewModel @Inject constructor() : ViewModel() {
     @Inject
     protected lateinit var getSearchKeyWordsUseCase: GetSearchKeyWordsUseCase
 
+    @Inject
+    protected lateinit var getDetailsGoodUseCase: GetDetailsGoodUseCase
+
     private val _categoriesSource = CategoriesUtil()
 
     private val _stateFlow = MutableStateFlow(State.COMPLETE)
@@ -56,6 +57,9 @@ open class HomeViewModel @Inject constructor() : ViewModel() {
 
     private val _flashSaleChannel = Channel<List<FlashSaleGood>>()
     val flashSaleFlow = _flashSaleChannel.receiveAsFlow()
+
+    private val _goodDetailsChannel = Channel<GoodDetails>()
+    val goodDetailsFlow = _goodDetailsChannel.receiveAsFlow()
 
     private var brands: List<Brand>? = null
     private var latest: List<LatestGood>? = null
@@ -101,7 +105,18 @@ open class HomeViewModel @Inject constructor() : ViewModel() {
 
     fun addToFavourites(good: LatestGood) {}
 
-    fun onGoodClick(good: LatestGood) {}
+    fun onGoodClick(good: LatestGood) {
+        viewModelScope.launch {
+            try {
+                _stateFlow.value = State.LOADING
+                _goodDetailsChannel.send(getDetailsGoodUseCase.execute().good)
+            } catch (e: Exception) {
+                _errorChannel.send(e)
+            } finally {
+                _stateFlow.value = State.COMPLETE
+            }
+        }
+    }
 
     private suspend fun getBrands() {
         if (brands == null) brands = getBrandsUseCase.execute().brands

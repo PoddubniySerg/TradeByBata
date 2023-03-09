@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.test.trade_by_bata.R
@@ -15,6 +16,7 @@ import com.test.trade_by_bata.model.AccountDto
 import com.test.trade_by_bata.presentation.ui.adapters.*
 import com.test.trade_by_bata.presentation.viewmodels.AccountSourceViewModel
 import com.test.trade_by_bata.presentation.viewmodels.HomeViewModel
+import com.test.trade_by_bata.util.GoodDetailsUtil
 import com.test.trade_by_bata.util.State
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
@@ -99,6 +101,16 @@ class HomeFragment @Inject constructor() :
                 latestAdapter.submitList(latest)
                 flashSaleAdapter.submitList(sale)
             }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.goodDetailsFlow.onEach { details ->
+            val args = Bundle().apply {
+                putParcelable(
+                    resources.getString(R.string.good_details_key),
+                    GoodDetailsUtil().convertGoodDetailsToDto(details)
+                )
+            }
+            findNavController().navigate(R.id.action_homeFragment_to_goodDetailsFragment, args)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
