@@ -10,6 +10,7 @@ import dagger.Provides
 class PageOneModule {
 
     @Provides
+    @PageOneScope
     fun provideGoodsRepository(
         networkSource: HomeGoodsRepository
     ): GoodsRepository {

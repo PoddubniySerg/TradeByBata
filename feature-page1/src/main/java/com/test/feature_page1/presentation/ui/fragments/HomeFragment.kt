@@ -15,19 +15,21 @@ import com.test.core.util.State
 import com.test.core.viewmodels.AccountSourceViewModel
 import com.test.feature_page1.R
 import com.test.feature_page1.databinding.FragmentHomeBinding
-import com.test.feature_page1.di.DaggerPageOneComponent
+import com.test.feature_page1.di.PageOneComponentProvider
 import com.test.feature_page1.presentation.ui.adapters.*
 import com.test.feature_page1.presentation.viewmodels.HomeViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
-class HomeFragment @Inject constructor() : BindFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+class HomeFragment :
+    BindFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private val accountViewModel by activityViewModels<AccountSourceViewModel>()
     private val viewModel by viewModels<HomeViewModel> {
-        DaggerPageOneComponent.create().homeViewModelFactory()
+        (requireContext().applicationContext as PageOneComponentProvider)
+            .pageOneComponent()
+            .homeViewModelFactory()
     }
 
     private lateinit var categoriesAdapter: HomeCategoriesAdapter

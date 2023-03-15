@@ -10,6 +10,7 @@ import dagger.Provides
 class LoginDataModule {
 
     @Provides
+    @LoginScope
     fun provideLoginAccountRepository(
         accountsDao: LoginAccountsRepository
     ): LoginAccountRepository {

@@ -17,37 +17,41 @@ import com.test.feature_page1.data.HomeGoodsRepository
 import com.test.feature_sign_in.data.SignInAccountsRepository
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import javax.inject.Scope
 
 @Module
-@InstallIn(SingletonComponent::class)
-class Module {
+class DataModule {
 
     @Provides
+    @DataScope
     fun provideAccountRepository(): AccountRepository = AccountRepositoryImpl()
 
     @Provides
+    @DataScope
     fun provideGoodsRepository(goodsNetworkApi: GoodsNetworkApi): GoodsRepositoryImpl {
         return GoodsRepositoryImpl(goodsNetworkApi)
     }
 
     @Provides
+    @DataScope
     fun providesGoodsRepository(goodsRepository: GoodsRepositoryImpl): GoodsRepository {
         return goodsRepository
     }
 
     @Provides
+    @DataScope
     fun providesHomeGoodsRepository(goodsRepository: GoodsRepositoryImpl): HomeGoodsRepository {
         return goodsRepository
     }
 
     @Provides
+    @DataScope
     fun provideGoodsNetworkApi(): GoodsNetworkApi {
         return GoodsNetworkSource().getLoader()
     }
 
     @Provides
+    @DataScope
     fun provideAccRepository(
         sharedPreferences: SharedPreferences,
         accountsDao: AccountsDao,
@@ -58,15 +62,21 @@ class Module {
     }
 
     @Provides
+    @DataScope
     fun provideLoginAccountsRepository(accountRepository: AccRepository): LoginAccountsRepository {
         return accountRepository
     }
 
     @Provides
+    @DataScope
     fun provideSignInAccountsRepository(accountRepository: AccRepository): SignInAccountsRepository {
         return accountRepository
     }
 
     @Provides
+    @DataScope
     fun provideAccountsDao(): AccountsDao = DataApp.getDataBase().accountDao()
 }
+
+@Scope
+annotation class DataScope

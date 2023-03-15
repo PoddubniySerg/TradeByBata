@@ -23,13 +23,10 @@ import com.test.trade_by_bata.model.GoodDetailsDto
 import com.test.trade_by_bata.presentation.ui.adapters.GoodDetailsColorsAdapter
 import com.test.trade_by_bata.presentation.ui.adapters.GoodDetailsPostersViewPagerAdapter
 import com.test.trade_by_bata.presentation.viewmodels.GoodDetailsViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
-@AndroidEntryPoint
-class GoodDetailsFragment @Inject constructor() :
+class GoodDetailsFragment :
     BindFragment<FragmentGoodDetailsBinding>(FragmentGoodDetailsBinding::inflate) {
 
     private val viewModel by viewModels<GoodDetailsViewModel>()

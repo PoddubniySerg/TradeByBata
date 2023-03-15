@@ -10,7 +10,8 @@ import dagger.Provides
 class SignInDataModule {
 
     @Provides
-    fun providesAccountRepository(accountsDao: SignInAccountsRepository): AccountRepository {
-        return AccountRepositoryImpl(accountsDao)
+    @SignInScope
+    fun providesAccountRepository(signInAccountsRepository: SignInAccountsRepository): AccountRepository {
+        return AccountRepositoryImpl(signInAccountsRepository)
     }
 }

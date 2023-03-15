@@ -11,20 +11,21 @@ import com.test.core.util.State
 import com.test.core.util.navigate
 import com.test.feature_auth.R
 import com.test.feature_auth.databinding.LoginFragmentBinding
-import com.test.feature_auth.di.DaggerLoginComponent
+import com.test.feature_auth.di.LoginComponentProvider
 import com.test.feature_auth.presentation.exceptions.InvalidFirstNameException
 import com.test.feature_auth.presentation.exceptions.InvalidPasswordException
 import com.test.feature_auth.presentation.exceptions.LoginException
 import com.test.feature_auth.presentation.viewmodels.LoginViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
-class LoginFragment @Inject constructor() :
+class LoginFragment :
     BindFragment<LoginFragmentBinding>(LoginFragmentBinding::inflate) {
 
     private val viewModel by viewModels<LoginViewModel> {
-        DaggerLoginComponent.create().loginViewModelFactory()
+        (requireContext().applicationContext as LoginComponentProvider)
+            .loginComponent()
+            .loginViewModelFactory()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -6,7 +6,6 @@ import com.test.core.util.State
 import com.test.domain.model.requests.Photo
 import com.test.domain.usecases.LogOutUseCase
 import com.test.domain.usecases.SavePhotoUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +13,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 open class ProfileViewModel @Inject constructor() : ViewModel() {
 
     @Inject

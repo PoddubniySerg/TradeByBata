@@ -14,18 +14,19 @@ import com.test.core.util.State
 import com.test.core.util.navigate
 import com.test.feature_sign_in.R
 import com.test.feature_sign_in.databinding.FragmentSignInBinding
-import com.test.feature_sign_in.di.DaggerSignInComponent
+import com.test.feature_sign_in.di.SignInComponentProvider
 import com.test.feature_sign_in.exceptions.*
 import com.test.feature_sign_in.presentation.viewmodels.SignInViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
-class SignInFragment @Inject constructor() :
+class SignInFragment :
     BindFragment<FragmentSignInBinding>(FragmentSignInBinding::inflate) {
 
     private val viewModel by viewModels<SignInViewModel> {
-        DaggerSignInComponent.create().signInViewModelFactory()
+        (requireContext().applicationContext as SignInComponentProvider)
+            .signInComponent()
+            .signInViewModelFactory()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

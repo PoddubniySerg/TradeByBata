@@ -23,13 +23,10 @@ import com.test.domain.exceptions.SavePhotoException
 import com.test.trade_by_bata.R
 import com.test.trade_by_bata.databinding.FragmentProfileBinding
 import com.test.trade_by_bata.presentation.viewmodels.ProfileViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
-@AndroidEntryPoint
-class ProfileFragment @Inject constructor() :
+class ProfileFragment :
     BindFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
 
     companion object {
