@@ -6,10 +6,4 @@ import javax.inject.Inject
 
 open class GetBrandsUseCase @Inject constructor() {
 
-    @Inject
-    protected lateinit var goodsRepository: GoodsRepository
-
-    suspend fun execute(): Brands {
-        return Brands(goodsRepository.getBrands())
-    }
 }

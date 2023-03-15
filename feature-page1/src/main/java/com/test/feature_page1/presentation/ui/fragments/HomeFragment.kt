@@ -21,8 +21,9 @@ import com.test.feature_page1.presentation.viewmodels.HomeViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-class HomeFragment : BindFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+class HomeFragment @Inject constructor() : BindFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private val accountViewModel by activityViewModels<AccountSourceViewModel>()
     private val viewModel by viewModels<HomeViewModel> {

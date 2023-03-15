@@ -11,8 +11,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SharedPreferences {
+class SharedPreferences @Inject constructor() {
 
     companion object {
         private const val USER_ID_KEY = "user_id"
@@ -21,7 +22,7 @@ class SharedPreferences {
 
     private val store get() = DataApp.getContext().dataStore
 
-    suspend fun getCurrentUserId(): Int {
+    suspend fun getCurrentUserId(): Int? {
         var id: Int? = null
         CoroutineScope(Dispatchers.IO).launch {
             store.data.collect { preferences ->

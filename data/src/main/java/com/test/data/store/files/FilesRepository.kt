@@ -2,8 +2,9 @@ package com.test.data.store.files
 
 import com.test.domain.exceptions.SaveFileException
 import java.io.File
+import javax.inject.Inject
 
-class FilesRepository {
+class FilesRepository @Inject constructor() {
 
     fun save(uri: String, content: ByteArray) {
         try {

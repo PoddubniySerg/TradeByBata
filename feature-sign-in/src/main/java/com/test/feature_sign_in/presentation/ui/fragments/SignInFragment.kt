@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-class SignInFragment :
+class SignInFragment @Inject constructor() :
     BindFragment<FragmentSignInBinding>(FragmentSignInBinding::inflate) {
 
     private val viewModel by viewModels<SignInViewModel> {

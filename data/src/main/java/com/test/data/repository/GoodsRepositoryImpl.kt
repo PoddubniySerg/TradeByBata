@@ -1,17 +1,16 @@
 package com.test.data.repository
 
+import com.test.core.entities.FlashSaleGood
+import com.test.core.entities.LatestGood
 import com.test.data.exceptions.GoodsNetworkResponseException
-import com.test.data.store.network.GoodsNetworkSource
-import com.test.data.store.network.dto.BrandDto
-import com.test.domain.entities.Brand
-import com.test.domain.entities.FlashSaleGood
+import com.test.data.store.network.GoodsNetworkApi
 import com.test.domain.entities.GoodDetails
-import com.test.domain.entities.LatestGood
 import com.test.domain.repository.GoodsRepository
+import com.test.feature_page1.data.HomeGoodsRepository
 
-class GoodsRepositoryImpl : GoodsRepository {
-
-    private val networkSource = GoodsNetworkSource().getLoader()
+class GoodsRepositoryImpl(
+    private val networkSource: GoodsNetworkApi
+) : GoodsRepository, HomeGoodsRepository {
 
     override suspend fun getLatestGoods(): List<LatestGood> {
         val response = networkSource.getLatestGoods()
@@ -19,19 +18,10 @@ class GoodsRepositoryImpl : GoodsRepository {
             ?: throw GoodsNetworkResponseException("Code:${response.code()}, message: ${response.message()}")
     }
 
-    override suspend fun getFlshSaleGoods(): List<FlashSaleGood> {
+    override suspend fun getFlashSaleGoods(): List<FlashSaleGood> {
         val response = networkSource.getFlashSaleGoods()
         return response.body()?.flashSale
             ?: throw GoodsNetworkResponseException("Code:${response.code()}, message: ${response.message()}")
-    }
-
-    override suspend fun getBrands(): List<Brand> {
-        return mutableListOf(
-            BrandDto("https://www.dhresource.com/0x0/f2/albu/g8/M01/9D/19/rBVaV1079WeAEW-AAARn9m_Dmh0487"),
-            BrandDto("https://avatars.mds.yandex.net/get-mpic/6251774/img_id4273297770790914968.jpeg/orig"),
-            BrandDto("https://www.tradeinn.com/f/13754/137546834/microsoft-xbox-xbox-one-s-1tb-console-additional-controller.jpg"),
-            BrandDto("https://mirbmw.ru/wp-content/uploads/2022/01/manhart-mhx6-700-01.jpg")
-        ).toList()
     }
 
     override suspend fun getGoodDetails(): GoodDetails {

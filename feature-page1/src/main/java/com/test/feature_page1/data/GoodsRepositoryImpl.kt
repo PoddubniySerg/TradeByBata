@@ -3,25 +3,26 @@ package com.test.feature_page1.data
 import com.test.core.entities.Brand
 import com.test.core.entities.FlashSaleGood
 import com.test.core.entities.LatestGood
-import com.test.data_source.network.GoodsNetworkSource
 import com.test.data_source.network.dto.BrandDto
 import com.test.feature_page1.domain.repositories.GoodsRepository
 import com.test.feature_page1.exceptions.GoodsNetworkResponseException
 
-class GoodsRepositoryImpl(networkSource: GoodsNetworkSource) : GoodsRepository {
-
-    private val loader = networkSource.getLoader()
+class GoodsRepositoryImpl(private val networkSource: HomeGoodsRepository) : GoodsRepository {
 
     override suspend fun getLatestGoods(): List<LatestGood> {
-        val response = loader.getLatestGoods()
-        return response.body()?.latest
-            ?: throw GoodsNetworkResponseException("Code:${response.code()}, message: ${response.message()}")
+//        val response = loader.getLatestGoods()
+//        return response.body()?.latest
+//            ?: throw GoodsNetworkResponseException("Code:${response.code()}, message: ${response.message()}")
+        return networkSource.getLatestGoods()
+            ?: throw GoodsNetworkResponseException("Null value from data")
     }
 
     override suspend fun getFlashSaleGoods(): List<FlashSaleGood> {
-        val response = loader.getFlashSaleGoods()
-        return response.body()?.flashSale
-            ?: throw GoodsNetworkResponseException("Code:${response.code()}, message: ${response.message()}")
+//        val response = loader.getFlashSaleGoods()
+//        return response.body()?.flashSale
+//            ?: throw GoodsNetworkResponseException("Code:${response.code()}, message: ${response.message()}")
+        return networkSource.getFlashSaleGoods()
+            ?: throw GoodsNetworkResponseException("Null value from data")
     }
 
     override suspend fun getBrands(): List<Brand> {
@@ -47,8 +48,10 @@ class GoodsRepositoryImpl(networkSource: GoodsNetworkSource) : GoodsRepository {
 //            "Reebok Classic",
 //            "Rolex"
 //        )
-        val response = loader.getKeyWords()
-        return response.body()?.words
-            ?: throw GoodsNetworkResponseException("Code:${response.code()}, message: ${response.message()}")
+//        val response = loader.getKeyWords()
+//        return response.body()?.words
+//            ?: throw GoodsNetworkResponseException("Code:${response.code()}, message: ${response.message()}")
+        return networkSource.getKeyWords()
+            ?: throw GoodsNetworkResponseException("Null value from data")
     }
 }

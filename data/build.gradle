@@ -56,5 +56,9 @@ dependencies {
     def datastore_versiion = "1.0.0"
     implementation "androidx.datastore:datastore-preferences:${datastore_versiion}"
 
+    implementation project(path: ':core')
     implementation project(path: ':domain')
+    implementation project(path: ':feature-sign-in')
+    implementation project(path: ':feature-auth')
+    implementation project(path: ':feature-page1')
 }

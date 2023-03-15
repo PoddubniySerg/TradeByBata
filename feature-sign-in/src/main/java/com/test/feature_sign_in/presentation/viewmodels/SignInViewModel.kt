@@ -18,16 +18,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-open class SignInViewModel @Inject constructor() : ViewModel() {
-
-    @Inject
-    protected lateinit var getCurrentUserUseCase: GetCurrentUserUseCase
-
-    @Inject
-    protected lateinit var signInUseCase: SignInUseCase
-
-    @Inject
-    protected lateinit var accountUtil: AccountUtil
+open class SignInViewModel @Inject constructor(
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val signInUseCase: SignInUseCase,
+    private val accountUtil: AccountUtil
+) : ViewModel() {
 
     private val _stateFlow = MutableStateFlow(State.COMPLETE)
     val stateFlow get() = _stateFlow.asStateFlow()

@@ -18,8 +18,10 @@ import com.test.feature_auth.presentation.exceptions.LoginException
 import com.test.feature_auth.presentation.viewmodels.LoginViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-class LoginFragment : BindFragment<LoginFragmentBinding>(LoginFragmentBinding::inflate) {
+class LoginFragment @Inject constructor() :
+    BindFragment<LoginFragmentBinding>(LoginFragmentBinding::inflate) {
 
     private val viewModel by viewModels<LoginViewModel> {
         DaggerLoginComponent.create().loginViewModelFactory()

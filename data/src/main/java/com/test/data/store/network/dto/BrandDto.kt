@@ -5,4 +5,4 @@ import com.squareup.moshi.JsonClass
 import com.test.domain.entities.Brand
 
 @JsonClass(generateAdapter = true)
-class BrandDto( @Json(name = "image_url") override val posterUrl: String) : Brand
+class BrandDto( @Json(name = "image_url") override val posterUrl: String) : Brand, com.test.core.entities.Brand

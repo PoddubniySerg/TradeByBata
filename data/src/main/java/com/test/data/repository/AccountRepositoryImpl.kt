@@ -2,7 +2,7 @@ package com.test.data.repository
 
 import com.test.data.DataApp
 import com.test.data.store.db.AccountsDao
-import com.test.data.store.db.dto.AccountDto
+import com.test.data.store.db.dto.AccountDtoDao
 import com.test.data.store.files.FilesRepository
 import com.test.data.store.sharedpreferences.SharedPreferences
 import com.test.domain.entities.Account
@@ -39,7 +39,7 @@ open class AccountRepositoryImpl : AccountRepository {
 
     override suspend fun create(param: CreateAccountParams): Account? {
         accountsDao.save(
-            AccountDto(
+            AccountDtoDao(
                 id = 0,
                 firstName = param.firstName,
                 lastName = param.lastName,
@@ -51,7 +51,7 @@ open class AccountRepositoryImpl : AccountRepository {
         )
         val id = accountsDao.getId(param.firstName, param.lastName, param.email)
         val account =
-            AccountDto(
+            AccountDtoDao(
                 id = id,
                 firstName = param.firstName,
                 lastName = param.lastName,

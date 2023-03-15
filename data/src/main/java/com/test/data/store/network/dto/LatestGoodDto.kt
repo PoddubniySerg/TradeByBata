@@ -11,4 +11,4 @@ class LatestGoodDto(
     @Json(name = "name") override val name: String,
     @Json(name = "price") override val price: Double,
     @Json(name = "image_url") override val imageUrl: String
-) : LatestGood
+) : LatestGood, com.test.core.entities.LatestGood

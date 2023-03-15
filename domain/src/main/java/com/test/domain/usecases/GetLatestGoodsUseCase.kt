@@ -6,10 +6,4 @@ import javax.inject.Inject
 
 open class GetLatestGoodsUseCase @Inject constructor() {
 
-    @Inject
-    protected lateinit var goodsRepository: GoodsRepository
-
-    suspend fun execute(): LatestGoods {
-        return LatestGoods(goodsRepository.getLatestGoods())
-    }
 }
