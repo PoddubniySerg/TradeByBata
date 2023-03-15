@@ -14,3 +14,5 @@
 .cxx
 local.properties
 /.idea/
+*consumer-rules.pro
+*proguard-rules.pro

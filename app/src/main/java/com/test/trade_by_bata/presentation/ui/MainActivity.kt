@@ -19,7 +19,7 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
         setContentView(binding.root)
 
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+            supportFragmentManager.findFragmentById(com.test.core.R.id.app_nav_host) as NavHostFragment
         val navController = navHostFragment.navController
 
         binding.bottomNavigationMenu.setupWithNavController(navController)

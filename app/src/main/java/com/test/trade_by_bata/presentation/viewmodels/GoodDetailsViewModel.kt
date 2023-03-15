@@ -2,9 +2,9 @@ package com.test.trade_by_bata.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.test.core.util.State
 import com.test.domain.entities.GoodDetails
 import com.test.trade_by_bata.model.GoodDetailsColor
-import com.test.trade_by_bata.util.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

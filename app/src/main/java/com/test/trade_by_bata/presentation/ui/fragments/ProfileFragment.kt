@@ -16,12 +16,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.test.core.fragments.BindFragment
+import com.test.core.util.State
+import com.test.core.viewmodels.AccountSourceViewModel
 import com.test.domain.exceptions.SavePhotoException
 import com.test.trade_by_bata.R
 import com.test.trade_by_bata.databinding.FragmentProfileBinding
-import com.test.trade_by_bata.presentation.viewmodels.AccountSourceViewModel
 import com.test.trade_by_bata.presentation.viewmodels.ProfileViewModel
-import com.test.trade_by_bata.util.State
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

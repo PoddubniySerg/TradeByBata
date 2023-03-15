@@ -14,6 +14,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.test.core.fragments.BindFragment
+import com.test.core.util.State
 import com.test.trade_by_bata.R
 import com.test.trade_by_bata.databinding.FragmentGoodDetailsBinding
 import com.test.trade_by_bata.databinding.GoodDetailsPosterMediatorDefaultBinding
@@ -21,7 +23,6 @@ import com.test.trade_by_bata.model.GoodDetailsDto
 import com.test.trade_by_bata.presentation.ui.adapters.GoodDetailsColorsAdapter
 import com.test.trade_by_bata.presentation.ui.adapters.GoodDetailsPostersViewPagerAdapter
 import com.test.trade_by_bata.presentation.viewmodels.GoodDetailsViewModel
-import com.test.trade_by_bata.util.State
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -40,11 +41,11 @@ class GoodDetailsFragment @Inject constructor() :
     ): View? {
         val good = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(
-                resources.getString(R.string.good_details_key),
+                resources.getString(com.test.core.R.string.good_details_key),
                 GoodDetailsDto::class.java
             )
         } else {
-            arguments?.getParcelable(resources.getString(R.string.good_details_key))
+            arguments?.getParcelable(resources.getString(com.test.core.R.string.good_details_key))
         } ?: findNavController().popBackStack()
         viewModel.setGoodDetails(good as GoodDetailsDto)
         return super.onCreateView(inflater, container, savedInstanceState)

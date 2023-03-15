@@ -1,6 +1,6 @@
 package com.test.trade_by_bata
 
-import com.test.data.DataApp
+import com.test.data_source.DataApp
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sign_in_hint_first_name_input">First name</string>
+    <string name="sign_in_hint_last_name_input">Last name</string>
+    <string name="sign_in_hint_email_inpul">Email</string>
+    <string name="sign_in_already_have_account_text">Already have an account?</string>
+    <string name="sign_in_page_log_in_button_text">Log in</string>
+</resources>

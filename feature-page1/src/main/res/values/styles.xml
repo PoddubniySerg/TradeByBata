@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="home_toolbar_account_location_button_text_style">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textColor">#FF5B5B5B</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="home_search_text_style">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textColor">#FF5B5B5B</item>
+        <item name="android:textSize">9sp</item>
+    </style>
+</resources>
