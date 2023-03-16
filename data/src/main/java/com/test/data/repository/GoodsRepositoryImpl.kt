@@ -1,16 +1,15 @@
 package com.test.data.repository
 
 import com.test.core.entities.FlashSaleGood
+import com.test.core.entities.GoodDetails
 import com.test.core.entities.LatestGood
 import com.test.data.exceptions.GoodsNetworkResponseException
 import com.test.data.store.network.GoodsNetworkApi
-import com.test.domain.entities.GoodDetails
-import com.test.domain.repository.GoodsRepository
 import com.test.feature_page1.data.HomeGoodsRepository
 
 class GoodsRepositoryImpl(
     private val networkSource: GoodsNetworkApi
-) : GoodsRepository, HomeGoodsRepository {
+) : HomeGoodsRepository {
 
     override suspend fun getLatestGoods(): List<LatestGood> {
         val response = networkSource.getLatestGoods()

@@ -4,6 +4,7 @@ import com.test.data.di.DataModule
 import com.test.data.di.DataScope
 import com.test.feature_auth.di.LoginComponent
 import com.test.feature_page1.di.PageOneComponent
+import com.test.feature_profile.di.ProfileComponent
 import com.test.feature_sign_in.di.SignInComponent
 import dagger.Component
 import javax.inject.Scope
@@ -17,6 +18,8 @@ interface AppComponent {
     fun loginComponent(): LoginComponent
 
     fun pageOneComponent(): PageOneComponent
+
+    fun profileComponent(): ProfileComponent
 }
 
 @Scope

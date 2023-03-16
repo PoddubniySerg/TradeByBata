@@ -3,7 +3,6 @@ package com.test.data.store.db.dto
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.test.domain.entities.Account
 
 @Entity(tableName = "accounts")
 class AccountDtoDao(
@@ -28,4 +27,4 @@ class AccountDtoDao(
 
     @ColumnInfo(name = "balance")
     override val balance: Int
-) : com.test.core.entities.Account, Account
+) : com.test.core.entities.Account

@@ -1,6 +1,6 @@
 package com.test.data.store.files
 
-import com.test.domain.exceptions.SaveFileException
+import com.test.core.exceptions.SaveFileException
 import java.io.File
 import javax.inject.Inject
 

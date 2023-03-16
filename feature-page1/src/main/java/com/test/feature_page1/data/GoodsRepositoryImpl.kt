@@ -2,6 +2,7 @@ package com.test.feature_page1.data
 
 import com.test.core.entities.Brand
 import com.test.core.entities.FlashSaleGood
+import com.test.core.entities.GoodDetails
 import com.test.core.entities.LatestGood
 import com.test.feature_page1.domain.repositories.GoodsRepository
 import com.test.feature_page1.exceptions.GoodsNetworkResponseException
@@ -10,17 +11,11 @@ import com.test.feature_page1.util.BrandsUtil
 class GoodsRepositoryImpl(private val networkSource: HomeGoodsRepository) : GoodsRepository {
 
     override suspend fun getLatestGoods(): List<LatestGood> {
-//        val response = loader.getLatestGoods()
-//        return response.body()?.latest
-//            ?: throw GoodsNetworkResponseException("Code:${response.code()}, message: ${response.message()}")
         return networkSource.getLatestGoods()
             ?: throw GoodsNetworkResponseException("Null value from data")
     }
 
     override suspend fun getFlashSaleGoods(): List<FlashSaleGood> {
-//        val response = loader.getFlashSaleGoods()
-//        return response.body()?.flashSale
-//            ?: throw GoodsNetworkResponseException("Code:${response.code()}, message: ${response.message()}")
         return networkSource.getFlashSaleGoods()
             ?: throw GoodsNetworkResponseException("Null value from data")
     }
@@ -49,10 +44,11 @@ class GoodsRepositoryImpl(private val networkSource: HomeGoodsRepository) : Good
 //            "Reebok Classic",
 //            "Rolex"
 //        )
-//        val response = loader.getKeyWords()
-//        return response.body()?.words
-//            ?: throw GoodsNetworkResponseException("Code:${response.code()}, message: ${response.message()}")
         return networkSource.getKeyWords()
             ?: throw GoodsNetworkResponseException("Null value from data")
+    }
+
+    override suspend fun getGoodDetails(): GoodDetails {
+        return networkSource.getGoodDetails()
     }
 }

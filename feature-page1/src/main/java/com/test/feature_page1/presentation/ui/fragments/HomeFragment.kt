@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.test.core.fragments.BindFragment
@@ -18,6 +19,7 @@ import com.test.feature_page1.databinding.FragmentHomeBinding
 import com.test.feature_page1.di.PageOneComponentProvider
 import com.test.feature_page1.presentation.ui.adapters.*
 import com.test.feature_page1.presentation.viewmodels.HomeViewModel
+import com.test.feature_page1.util.GoodDetailsUtil
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -104,15 +106,15 @@ class HomeFragment :
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-//        viewModel.goodDetailsFlow.onEach { details ->
-//            val args = Bundle().apply {
-//                putParcelable(
-//                    resources.getString(R.string.good_details_key),
-//                    GoodDetailsUtil().convertGoodDetailsToDto(details)
-//                )
-//            }
-//            findNavController().navigate(R.id.action_homeFragment_to_goodDetailsFragment, args)
-//        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        viewModel.goodDetailsFlow.onEach { details ->
+            val args = Bundle().apply {
+                putParcelable(
+                    resources.getString(com.test.core.R.string.good_details_key),
+                    GoodDetailsUtil().convertGoodDetailsToDto(details)
+                )
+            }
+            findNavController().navigate(R.id.action_homeFragment_to_goodDetailsFragment, args)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun bind() {

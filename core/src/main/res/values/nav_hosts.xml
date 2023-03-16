@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="app_nav_host" type="id"/>
+    <item name="page_one_nav_host" type="id"/>
+    <item name="profile_nav_host" type="id"/>
 </resources>

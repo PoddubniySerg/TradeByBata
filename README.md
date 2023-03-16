@@ -7,7 +7,9 @@
 Kotlin, Корутины, Flow, MVVM, Clean Architecture, Многомодульность, DataStore, Room, Retrofit2, Hilt, Glide, Viewpager2, Navigation, 
 
 ## Результат
-Реализованы все требования ТЗ, включая необязательные.
+Реализованы все требования ТЗ, включая необязательные. Разделение на модули выполнено в двух вариантах:
+- [***app, domain, data*** - *в ветке master*](https://github.com/PoddubniySerg/TradeByBata.git)
+- [***разделение по функциям(app, core, data, feature1...featureN)*** - *в ветке feature-modules*](https://github.com/PoddubniySerg/TradeByBata/tree/feature-modules)
 
 ## Демонстрация реализации:
 

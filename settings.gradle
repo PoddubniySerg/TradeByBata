@@ -14,9 +14,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Trade_by_bata"
 include ':app'
-include ':domain'
-include ':data'
 include ':core'
+include ':data'
 include ':feature-auth'
 include ':feature-sign-in'
 include ':feature-page1'

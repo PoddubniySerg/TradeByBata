@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_menu_trade_store_text">Trade store</string>
+    <string name="profile_menu_payment_method_text">Payment method</string>
+    <string name="profile_menu_balance_text">Balance</string>
+    <string name="profile_menu_trade_history_text">Trade history</string>
+    <string name="profile_menu_restore_purchase_text">Restore Purchase</string>
+    <string name="profile_menu_help_text">Help</string>
+    <string name="profile_menu_log_out_text">Log out</string>
+    <string name="profile_toolbar_title_text">Profile</string>
+</resources>

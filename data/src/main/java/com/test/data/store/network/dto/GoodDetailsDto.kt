@@ -2,8 +2,7 @@ package com.test.data.store.network.dto
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import com.test.domain.entities.Brand
-import com.test.domain.entities.GoodDetails
+import com.test.core.entities.GoodDetails
 
 @JsonClass(generateAdapter = true)
 class GoodDetailsDto(

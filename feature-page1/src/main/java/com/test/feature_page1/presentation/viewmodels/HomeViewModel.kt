@@ -8,10 +8,7 @@ import com.test.core.entities.GoodDetails
 import com.test.core.entities.LatestGood
 import com.test.core.util.State
 import com.test.feature_page1.domain.model.requests.SearchRequest
-import com.test.feature_page1.domain.usecases.GetBrandsUseCase
-import com.test.feature_page1.domain.usecases.GetFlashSaleGoodsUseCase
-import com.test.feature_page1.domain.usecases.GetLatestGoodsUseCase
-import com.test.feature_page1.domain.usecases.GetSearchKeyWordsUseCase
+import com.test.feature_page1.domain.usecases.*
 import com.test.feature_page1.presentation.model.Category
 import com.test.feature_page1.util.CategoriesUtil
 import kotlinx.coroutines.channels.Channel
@@ -26,7 +23,8 @@ open class HomeViewModel @Inject constructor(
     private val getBrandsUseCase: GetBrandsUseCase,
     private val getLatestGoodsUseCase: GetLatestGoodsUseCase,
     private val getFlashSaleGoodsUseCase: GetFlashSaleGoodsUseCase,
-    private val getSearchKeyWordsUseCase: GetSearchKeyWordsUseCase
+    private val getSearchKeyWordsUseCase: GetSearchKeyWordsUseCase,
+    private val getDetailsGoodUseCase: GetDetailsGoodUseCase
 ) : ViewModel() {
 
     private val _categoriesSource = CategoriesUtil()
@@ -97,16 +95,16 @@ open class HomeViewModel @Inject constructor(
     fun addToFavourites(good: LatestGood) {}
 
     fun onGoodClick(good: LatestGood) {
-//        viewModelScope.launch {
-//            try {
-//                _stateFlow.value = State.LOADING
-//                _goodDetailsChannel.send(getDetailsGoodUseCase.execute().good)
-//            } catch (e: Exception) {
-//                _errorChannel.send(e)
-//            } finally {
-//                _stateFlow.value = State.COMPLETE
-//            }
-//        }
+        viewModelScope.launch {
+            try {
+                _stateFlow.value = State.LOADING
+                _goodDetailsChannel.send(getDetailsGoodUseCase.execute().good)
+            } catch (e: Exception) {
+                _errorChannel.send(e)
+            } finally {
+                _stateFlow.value = State.COMPLETE
+            }
+        }
     }
 
     private suspend fun getBrands() {

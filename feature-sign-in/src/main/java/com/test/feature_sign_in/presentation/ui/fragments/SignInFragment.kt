@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.test.core.fragments.BindFragment
 import com.test.core.model.AccountDto
 import com.test.core.util.State
-import com.test.core.util.navigate
+import com.test.core.util.navigateToParent
 import com.test.feature_sign_in.R
 import com.test.feature_sign_in.databinding.FragmentSignInBinding
 import com.test.feature_sign_in.di.SignInComponentProvider
@@ -108,7 +108,7 @@ class SignInFragment :
         val args = Bundle().apply {
             putParcelable(resources.getString(com.test.core.R.string.account_key), account)
         }
-        navigate(R.id.action_signInFragment_to_homeFragment, data = args)
+        navigateToParent(R.id.action_signInFragment_to_homeFragment, data = args)
     }
 
     private fun clearAlarm() {

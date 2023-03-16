@@ -62,10 +62,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    implementation project(path: ':domain')
-    implementation project(path: ':data')
     implementation project(path: ':core')
+    implementation project(path: ':data')
     implementation project(path: ':feature-sign-in')
     implementation project(path: ':feature-auth')
     implementation project(path: ':feature-page1')
+    implementation project(path: ':feature-profile')
 }

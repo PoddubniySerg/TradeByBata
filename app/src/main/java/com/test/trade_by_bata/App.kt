@@ -5,6 +5,8 @@ import com.test.feature_auth.di.LoginComponent
 import com.test.feature_auth.di.LoginComponentProvider
 import com.test.feature_page1.di.PageOneComponent
 import com.test.feature_page1.di.PageOneComponentProvider
+import com.test.feature_profile.di.ProfileComponent
+import com.test.feature_profile.di.ProfileComponentProvider
 import com.test.feature_sign_in.di.SignInComponent
 import com.test.feature_sign_in.di.SignInComponentProvider
 import com.test.trade_by_bata.di.AppComponent
@@ -13,7 +15,8 @@ import com.test.trade_by_bata.di.DaggerAppComponent
 class App : DataApp(),
     SignInComponentProvider,
     PageOneComponentProvider,
-    LoginComponentProvider {
+    LoginComponentProvider,
+    ProfileComponentProvider {
 
     private lateinit var appComponent: AppComponent
 
@@ -32,5 +35,9 @@ class App : DataApp(),
 
     override fun loginComponent(): LoginComponent {
         return this.appComponent.loginComponent()
+    }
+
+    override fun profileComponent(): ProfileComponent {
+        return this.appComponent.profileComponent()
     }
 }

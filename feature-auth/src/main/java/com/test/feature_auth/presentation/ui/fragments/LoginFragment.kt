@@ -8,7 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.test.core.fragments.BindFragment
 import com.test.core.model.AccountDto
 import com.test.core.util.State
-import com.test.core.util.navigate
+import com.test.core.util.navigateToParent
 import com.test.feature_auth.R
 import com.test.feature_auth.databinding.LoginFragmentBinding
 import com.test.feature_auth.di.LoginComponentProvider
@@ -80,7 +80,7 @@ class LoginFragment :
         val args = Bundle().apply {
             putParcelable(resources.getString(com.test.core.R.string.account_key), account)
         }
-        navigate(R.id.action_loginFragment_to_homeFragment, data = args)
+        navigateToParent(R.id.action_loginFragment_to_homeFragment, data = args)
     }
 
     private fun login() {
