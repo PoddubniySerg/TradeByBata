@@ -11,6 +11,16 @@ Kotlin, Корутины, Flow, MVVM, Clean Architecture, Многомодуль
 - [***app, domain, data*** - *в ветке master*](https://github.com/PoddubniySerg/TradeByBata.git)
 - [***разделение по функциям(app, core, data, feature1...featureN)*** - *в ветке feature-modules*](https://github.com/PoddubniySerg/TradeByBata/tree/feature-modules)
 
+[Демонстрация реализации](#демонстрация-реализации)
+
+[Teхническое задание](#техническое-задание)
+1. [Общая информация](#общая-информация)
+2. [Описание экранов](#описание-экранов)
+   - [Экран «Sign in page» и экран «Login»](#экран-sign-in-page-и-экран-login)
+   - [Экран «Profile»](#экран-profile)
+   - [Экран «Page 1»](#экран-page-1)
+   - [Экран «Page 2»](#экран-page-2-выполнение-по-возможности)
+   
 ## Демонстрация реализации:
 
 <table>
@@ -28,7 +38,7 @@ Kotlin, Корутины, Flow, MVVM, Clean Architecture, Многомодуль
   </tr>
 </table>
 
-## Teхническое задание
+## Техническое задание
 
 ### Общая информация
 
